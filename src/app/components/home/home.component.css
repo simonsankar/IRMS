@@ -1,0 +1,12 @@
+.square,.square h3{
+  transition: color 0.1s, background-color 0.6s;
+  transition-timing-function: linear 0.3s;
+}
+.square:hover{
+  border-radius: 4px;
+  background-color: #f1614b;
+  color: #f0efef;    
+}
+.square:hover h3{
+  color: #f0efef;    
+}

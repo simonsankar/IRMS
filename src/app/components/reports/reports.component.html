@@ -1,0 +1,71 @@
+<div class="row">
+    <h1>{{title}}</h1>
+    <hr>
+</div>
+
+<div class="row">
+    <!-- Make Report button -->
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <button [routerLink]="['/makereport']" type="button" class="btn btn-large btn-block btn-danger">Make A Report</button>
+    </div>
+    <!-- Marker Filters -->
+    <!-- Region -->
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <select [(ngModel)]="selectedRegion" (ngModelChange)="onChange()" class="form-control">
+            <option *ngFor="let r of regions; let i = index" [ngValue]="r">{{r.name}}</option>
+        </select>
+    </div>
+    <!-- Category -->
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <select [(ngModel)]="selectedCategory" (ngModelChange)="onChange()" class="form-control">
+            <option *ngFor="let c of categories; let j = index" [ngValue]="c"> {{c.name}}</option>
+        </select>
+    </div>
+</div>
+<div class="row">
+    <hr>    
+    <!--Map-->
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="panel panel-primary">
+              <div class="panel-body">
+                <!-- this creates a google map on the page with the given lat/lng from -->
+                <!-- the component as the initial center of the map: -->
+                <agm-map [latitude]="baselat" [longitude]="baselng" [zoom]="zoom">
+                    <agm-marker 
+                        *ngFor="let m of markers; let i = index"
+                        [latitude]="m.latitude"
+                        [longitude]="m.longitude"
+                        [iconUrl]="m.icon"
+                        (markerClick)="markerClick(m)"
+                    >
+                        <agm-info-window [isOpen]="m.isOpen">
+                            <h4>{{m.title}}<small>' m.date '</small></h4>
+                            <h5>{{m.region}}</h5>
+                            <p><em>'{{m.description}}'</em></p>
+                            <h5>Status:
+                                <em *ngIf="m.status == 0" class="text-danger">Unresolved</em>
+                                <em *ngIf="m.status == 1" class="text-warning">Ongoing</em>
+                                <em *ngIf="m.status == 2" class="text-success">Resolved</em>
+                            </h5>
+                            <button *ngIf="m.status != 2" type="button" class="btn btn-xs btn-success">Respond</button>            
+                        </agm-info-window>                     
+                    </agm-marker>
+                </agm-map>
+              </div>
+        </div>
+    </div>
+    <!--Report Panel-->
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">View Reports</h3>
+            </div>
+            <ul class="list-group">
+                <a class="list-group-item" *ngFor="let m of markers; let i = index" (click)="markerClick(m)">
+                    {{m.title}}
+                </a>
+            </ul>
+        </div>
+    </div>
+    <hr>
+</div>
