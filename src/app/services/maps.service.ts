@@ -30,10 +30,12 @@ export class MapsService {
       description: report.description,
       region: report.region,
       category: report.category,
+      address: report.address,
       icon: iconPath,
       latitude: report.latitude,
       longitude: report.longitude,
       status: report.status,
+      date: report.date,
       image: report.image,
       isOpen:false,
     }
@@ -56,18 +58,37 @@ export class MapsService {
   }
 
   //Geocoding an address
-  geoCode(address)  {
-    this.gmaps.load().then(() => {
-      console.log('google script loaded');
-      let geocoder = new google.maps.Geocoder();
-      geocoder.geocode({'address':address},(results,status) => {
-        if(status = 'OK') {
-          console.log('OK:',results[0].geometry.location.lat());
+  geoCode(address) {
+    console.log('Getting Address: ', address);
+    let geocoder = new google.maps.Geocoder();
+    return Observable.create(observer => {
+      geocoder.geocode({ 'address': address}, function(results, status) {
+        if (status == 'OK') {
+            observer.next(results[0].geometry.location);
+            observer.complete();
+        } else {
+            console.log('Error - ', results, ' & Status - ', status);
+            observer.next({});
+            observer.complete();
         }
-        else  {
-          console.log('Geocoding failed');
+      });
+    })
+  }
+  //Reverse Geocoding
+  reverseGeoCode(marker)  {
+    let geocoder = new google.maps.Geocoder();
+    let latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
+    return Observable.create(observer => {
+      geocoder.geocode({'latLng':latlng}, (results, status) => {
+        if(status == 'OK') {
+          observer.next(results[0].formatted_address);
+          observer.complete();
         }
-        
+        else {
+            console.log('Error - ', results, ' & Status - ', status);
+            observer.next({});
+            observer.complete();
+        }
       });
     });
   }
@@ -96,10 +117,12 @@ interface Marker { //Defines a Marker
   description: string,
   region: string,
   category: string,
+  address:string,
   icon: string,
   latitude: number,
   longitude: number,
   status: number,
+  date:string,
   image: string,
   isOpen: boolean,
 }

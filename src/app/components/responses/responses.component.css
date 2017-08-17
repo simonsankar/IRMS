@@ -1,0 +1,10 @@
+a:hover {
+    cursor:pointer;
+}
+a:active {
+    background: #e5e5e5;
+}
+.scrollable {
+    max-height: 500px;
+    overflow-y:scroll;
+}

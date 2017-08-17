@@ -6,23 +6,24 @@
   </div>
 </div>
 
+<!-- form -->
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
   <div class="panel panel-default">
     <div class="panel-body">
-       <h3><em>Report Location</em></h3>
-       <hr>
-       <form class="form" role="form">
-         <div class="form-group">
-          <label for="location"><strong>Region:</strong></label>
-          <select name="region" class="form-control" required="required">
-            <option value=""></option>
+      <h3><em>Report Location</em></h3>
+      <hr>
+      <form class="form" role="form">
+        <div [ngClass]="regionSelect"class="form-group">
+          <label for="region"><strong>Region:</strong></label>
+          <select name="region" [(ngModel)]="selectedRegion" class="form-control">
+            <option *ngFor="let r of regions; let i = index" [ngValue]="r">{{r.name}}</option>
           </select>
-         </div>
+        </div>
 
-          <div class="form-group">
-            <label for="location"><strong>Address:</strong></label>
+          <div [ngClass]="addressInput"class="form-group">
+            <label for="address"><strong>Address:</strong></label>
             <div class="input-group">
-              <input name="location" type="text" class="form-control">
+              <input name="address" [(ngModel)]="address" type="text" class="form-control">
               <span class="input-group-btn">
                 <button (click)="geocodeAddress()" class="btn btn-info" type="button"><span class="glyphicon glyphicon-search"></span> Search</button>
               </span>
@@ -38,26 +39,26 @@
             <button (click)="getUserLocation()" type="button" class="btn btn-block btn-info">Use My Location</button>
             <span class="help-block">Geolocation must be enabled by your browser. Don't worry, its safe!</span>
           </div>
-
           <hr>
           <div class="form-group">
             <button [routerLink]="['../details']" type="button" class="btn btn-default">Back</button>
-            <button [routerLink]="['../photo']" type="button" class="pull-right btn btn-primary">Next</button>
+            <button (click)="saveLocation()" type="button" class="pull-right btn btn-primary">Next</button>
           </div>
-       </form>
+      </form>
     </div>
   </div>
 </div>
-
+<!-- map -->
 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
   <div class="panel panel-default">
     <div class="panel-body">
-       <agm-map [latitude]="baselat" [longitude]="baselng" [zoom]="zoom" (mapClick)="addNewMarker($event)">
-           <agm-marker 
+      <agm-map [latitude]="baselat" [longitude]="baselng" [zoom]="zoom" [usePanning]="true"(mapClick)="addNewMarker($event)">
+          <agm-marker 
               [latitude]="newm.latitude"
               [longitude]="newm.longitude"
               [iconUrl]="newm.icon"
               [markerDraggable]="newm.draggable"
+              (dragEnd)="draggedMarker($event)"
           >                    
           </agm-marker> 
         </agm-map>

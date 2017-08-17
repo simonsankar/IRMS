@@ -17,12 +17,68 @@
         <li><a [routerLink]="['reports']">Reports</a></li>
         <li><a [routerLink]="['responses']">Responses</a></li>
         <li><a [routerLink]="['stats']">Statistics</a></li>
-
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Admin Login</a></li>
+        <li *ngIf="(auth.admin | async)"><a [routerLink]="['/makeresponse']">Make Response</a></li>
+        <li *ngIf="(auth.admin | async)">
+          <p class="navbar-text"><em>{{auth.adminName.email}}</em> <span class="glyphicon glyphicon-user"></span></p>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-option-vertical"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li *ngIf="!(auth.admin | async)" ><a (click)="signUpModal.open()" class="hover">Sign Up</a></li>
+            <li *ngIf="!(auth.admin | async)"><a (click)="loginModal.open()" class="hover">Login</a></li>
+            <li *ngIf="(auth.admin | async)"><a (click)="logout()" class="hover">Logout</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<!-- signUp Modal -->
+<modal #signUpModal [closeOnEscape]="false" [closeOnOutsideClick]="false">
+  <modal-header>
+      <h2>Sign Up!</h2>
+  </modal-header>
+  <modal-content>
+      <div class="form-group">
+        <label for="email">Email:</label>
+         <input [(ngModel)]="email" type="text" name="email" placeholder="user@email.com" class="form-control"> 
+      </div>
+        <div class="form-group">
+        <label for="password">Password:</label>
+         <input [(ngModel)]="password" type="password" name="password" class="form-control"> 
+      </div>
+        <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+         <input [(ngModel)]="confirmPassword" type="password" name="confirmPassword" class="form-control"> 
+      </div>
+  </modal-content>
+  <modal-footer>
+     <button class="pull-left btn btn-default" (click)="signUpModal.close()">Close</button> 
+      <button class="btn btn-primary" (click)="signUp()" [disabled]="!email || !password || !confirmPassword">Submit</button>  
+  </modal-footer>
+</modal>
+
+<!-- login modal -->
+<modal #loginModal>
+  <modal-header>
+      <h2>Login</h2>
+  </modal-header>
+  <modal-content>
+      <div class="form-group">
+        <label for="email">Email:</label>
+         <input [(ngModel)]="email" type="text" name="email" placeholder="user@email.com" class="form-control"> 
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input [(ngModel)]="password" type="password" name="password" class="form-control"> 
+      </div>
+  </modal-content>
+  <modal-footer>
+     <button class="pull-left btn btn-default" (click)="loginModal.close()">Close</button> 
+     <button class="btn btn-primary" (click)="login()">Login</button> 
+  </modal-footer>
+</modal>

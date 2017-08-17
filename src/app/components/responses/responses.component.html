@@ -3,21 +3,82 @@
     <hr>
 </div>
 <div class="row">
-    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <div class="col-xs-9 col-sm-8 col-md-9 col-lg-9">
         <div class="panel panel-primary">
-          <div class="panel-heading">
-                <h3 class="panel-title">Panel title</h3>
-          </div>
-          <div class="panel-body">
-                Panel content
-          </div>
+            <div class="panel-heading">
+                <h3 class="panel-title">Reports and their Responses</h3>
+            </div>
+            <div class="panel-body scrollable">
+                <ul class="list-group" *ngFor="let report of reports let i = index">
+                    <!-- Report headings -->
+                    <a (click)="clickReport(report)" *ngIf="report.status == 0" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item">
+                        <p>
+                            {{report.title}}
+                            <span class="pull-right text-danger glyphicon glyphicon-exclamation-sign"></span>
+                        </p>
+                    </a>
+                    <a (click)="clickReport(report)" *ngIf="report.status == 1" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item ">
+                        <p>
+                            {{report.title}}
+                            <span class="pull-right text-warning glyphicon glyphicon-alert"></span>
+                        </p>
+                    </a>
+                    <a (click)="clickReport(report)" *ngIf="report.status == 2" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item ">
+                        <p>
+                            {{report.title}}
+                            <span class="list-group-item-text pull-right text-success glyphicon glyphicon-ok"></span>
+                        </p>
+                        
+                    </a>
+                    <div [attr.id]="'collapseOne_' + i" class="collapse">
+                        <li class="list-group-item">
+                            <p class="list-group-text">{{report.address}}<br>{{report.region}}</p>
+                            <p>{{report.date}}</p>
+                            <p *ngIf="report.status == 0" class="text-danger">Unresolved</p>
+                            <p *ngIf="report.status == 1" class="text-warning">Ongoing</p>
+                            <p *ngIf="report.status == 2" class="text-success">Resolved</p>
+                            <p class="list-group-text"><em>"- {{report.description}}"</em></p>
+                            <div *ngIf="(auth.admin | async)">
+                                <button *ngIf="report.status != 2" (click)="makeResponse(report.$key)" type="button" class="btn btn-xs btn-success">Respond</button>            
+                            </div> 
+                        </li>
+                    </div>
+                    <!-- Responses -->
+                    <ul>
+                        <div *ngFor="let res of report.responses">
+                            <li class="list-group-item">
+                                <p class="list-group-item-text">
+                                    {{res.title}} | <small>{{res.date}}</small>
+                                    <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + res.$key" (click)="clickResponse(res)"type="button" class="pull-right btn btn-xs btn-primary">
+                                        <span *ngIf="!res.view" class="glyphicon glyphicon-chevron-down"></span>                                    
+                                        <span *ngIf="res.view" class="glyphicon glyphicon-chevron-up"></span>                                    
+                                    </button>
+                                </p> 
+                                
+                            </li>
+                            <div [attr.id]="'collapseTwo_' + res.$key" class="collapse">
+                                <li class="list-group-item"><em>{{res.description}}</em></li>
+                            </div>
+                        </div>
+                        <li *ngIf="report.status == 0" class="list-group-item"><em>No response currently</em></li>
+                    </ul>
+                </ul>
+            </div>
         </div>
     </div>
-    
+    <!-- Filter -->
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div class="panel panel-default">
             <div class="panel-body">
-               Basic panel example
+               <!-- Region -->
+                <select [(ngModel)]="selectedRegion" (ngModelChange)="onChange()" class="form-control">
+                    <option *ngFor="let r of regions; let i = index" [ngValue]="r">{{r.name}}</option>
+                </select>
+                <hr>
+                <!-- Category -->
+                <select [(ngModel)]="selectedCategory" (ngModelChange)="onChange()" class="form-control">
+                    <option *ngFor="let c of categories; let j = index" [ngValue]="c"> {{c.name}}</option>
+                </select>
             </div>
         </div>
     </div>

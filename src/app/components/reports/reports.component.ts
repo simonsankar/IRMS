@@ -1,8 +1,10 @@
   import { Component, OnInit } from '@angular/core';
+  import { Router} from '@angular/router';
   import { FormsModule } from '@angular/forms';
   import { AgmCoreModule } from '@agm/core';
   import { FirebaseService } from '../../services/firebase.service';
   import { MapsService } from '../../services/maps.service';
+  import { AuthService } from '../../services/auth.service';
 
   @Component({
     selector: 'app-reports',
@@ -23,7 +25,12 @@
     selectedCategory: any;  //default category (all)
     selectedRegion: any = this.regions[0];    //defualt region (all)
 
-    constructor(private firebaseService:FirebaseService, private mapService:MapsService) { }
+    constructor(
+      private router: Router,
+      private firebaseService: FirebaseService, 
+      private mapService: MapsService,
+      public auth: AuthService
+    ) { }
 
     ngOnInit() { 
       this.loadRegions();   //Retrieves all regions
@@ -82,8 +89,9 @@
     markerClick(marker) { //Marker click event
       this.mapService.markerClick(marker);
     }
-    makeResponse(marker){
-      // Do something
+    
+    makeResponse(id){
+      this.router.navigate(['/makeresponse/'+id]);
     }
 
   }

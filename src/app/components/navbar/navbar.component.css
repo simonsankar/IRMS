@@ -1,3 +1,11 @@
 .navbar-brand {
     margin-top: -10px;
 }
+.hover{
+    cursor: pointer;
+}
+
+.modal {
+    
+    background: #e3e3e3;
+}

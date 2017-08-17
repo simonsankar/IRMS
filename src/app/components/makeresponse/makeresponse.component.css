@@ -1,14 +1,10 @@
 a:hover {
- cursor:pointer;
+    cursor:pointer;
 }
 a:active {
     background: #e5e5e5;
 }
 .scrollable {
-    max-height: 395px;
+    max-height: 500px;
     overflow-y:scroll;
-}
-
-agm-map {
-  height: 400px;
 }

@@ -45,5 +45,61 @@ export class LocalstorageService {
   }
 
   //Location
+  setLocation(lat,lng,address,region) {
+    this.setAddress(address);
+    this.setCoords(lat,lng);
+    this.setRegion(region);
+  }
+  getLocation() {
+    let location = {
+      address : this.getAddress(),
+      lat: this.getCoords().lat,
+      lng: this.getCoords().lng,
+      region: this.getRegion()
+    }
+    return location;
+  }
+  
+  setRegion(region) {
+    localStorage.setItem('region',region)
+  }
+  getRegion() {
+    return localStorage.getItem('region');
+  }
 
+  setCoords(lat,lng) {
+    localStorage.setItem('lat',lat);
+    localStorage.setItem('lng',lng);
+  }
+  getCoords() {
+    let coords = {
+      lat: localStorage.getItem('lat'),
+      lng: localStorage.getItem('lng')
+    }
+    return coords;
+  }
+
+  setAddress(address) {
+    localStorage.setItem('address',address);
+  }
+  getAddress() {
+    return localStorage.getItem('address');
+  }
+
+  //Photo
+  setPhoto(photo) {
+    localStorage.setItem('photo',photo);
+  }
+  getPhoto() {
+    return localStorage.getItem('photo');
+  }
+  removePhoto() {
+    localStorage.removeItem('photo');
+  }
+  setPhotoStatus(num) {
+    localStorage.setItem('photoStatus',num);
+  }
+  getPhotoStatus() {
+    return localStorage.getItem('photoStatus');
+  }
 }

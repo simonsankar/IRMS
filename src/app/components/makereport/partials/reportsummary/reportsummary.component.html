@@ -4,5 +4,89 @@
       4/4<span class="sr-only">  % Complete</span>
     </div>
   </div>
-  
 </div>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h3><em>Report Summary</em></h3>
+      <hr>
+      <!-- Details -->
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4><em>Report Details</em>
+            <button [routerLink]="['../details']" type="button" class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+            </h4>
+            <hr>
+            <div [ngClass]="categorySelect" class="form-group">
+              <label for="categories"><strong>Category:</strong></label>
+              <input name="category" [(ngModel)]="category" type="text" class="form-control" disabled>
+            </div>
+            <div [ngClass]="titleInput" class="form-group">
+              <label for="title"><strong>Title:</strong></label>
+              <input name="title" [(ngModel)]="title" type="text" class="form-control" disabled>
+            </div>
+            <div [ngClass]="descriptionInput" class="form-group">
+              <label for="description"><strong>Description:</strong></label>
+              <textarea name="description" [(ngModel)]="description" class="form-control" rows="4" disabled></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Location -->
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4><em>Report Location</em>
+            <button [routerLink]="['../location']" type="button" class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+            </h4>
+            <hr>
+            <div [ngClass]="regionSelect"class="form-group">
+              <label for="region"><strong>Region:</strong></label>
+                <input name="region" [(ngModel)]="region" type="text" class="form-control" disabled>
+            </div>
+            <div [ngClass]="addressInput"class="form-group">
+              <label for="address"><strong>Address:</strong></label>
+                <input name="address" [(ngModel)]="address" type="text" class="form-control" disabled>
+            </div>
+            <!-- Map -->
+            <div class="thumbnail">
+              <agm-map [latitude]="baselat" [longitude]="baselng" [zoom]="zoom" [disableDoubleClickZoom]="true" [scrollwheel]="false" [zoomControl]="false" [mapDraggable]="false">
+                <agm-marker 
+                    [latitude]="newm.latitude"
+                    [longitude]="newm.longitude"
+                    [iconUrl]="newm.icon"
+                >                    
+                </agm-marker> 
+              </agm-map>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Photo -->
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4><em>Report Photo</em>
+            <button [routerLink]="['../photo']" type="button" class="pull-right btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+            </h4>
+            <hr>
+            <div class="thumbnail">
+              <img [attr.src]="photo" alt="Your Problem Photo">
+              <div class="caption"><p>Problem Photo</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button (click)="submitReport()"type="button" class="btn btn-large btn-block btn-success">Submit Report</button>
+      <hr>
+      <div class="form-group">
+        <button [routerLink]="['../photo']" type="button" class="btn btn-default">Back</button>
+        <button (click)="cancelReport()" type="button" class="pull-right btn btn-danger">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+

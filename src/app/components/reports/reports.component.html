@@ -39,7 +39,7 @@
                         (markerClick)="markerClick(m)"
                     >
                         <agm-info-window [isOpen]="m.isOpen">
-                            <h4>{{m.title}}<small>' m.date '</small></h4>
+                            <h4>{{m.title}}<small> | {{m.date}}</small></h4>
                             <h5>{{m.region}}</h5>
                             <p><em>'{{m.description}}'</em></p>
                             <h5>Status:
@@ -47,7 +47,9 @@
                                 <em *ngIf="m.status == 1" class="text-warning">Ongoing</em>
                                 <em *ngIf="m.status == 2" class="text-success">Resolved</em>
                             </h5>
-                            <button *ngIf="m.status != 2" type="button" class="btn btn-xs btn-success">Respond</button>            
+                            <div *ngIf="(auth.admin | async)">
+                                <button *ngIf="m.status != 2" (click)="makeResponse(m.$key)" type="button" class="btn btn-xs btn-success">Respond</button>            
+                            </div>
                         </agm-info-window>                     
                     </agm-marker>
                 </agm-map>
@@ -60,9 +62,12 @@
             <div class="panel-heading">
                 <h3 class="panel-title">View Reports</h3>
             </div>
-            <ul class="list-group">
+            <ul class="list-group scrollable">
                 <a class="list-group-item" *ngFor="let m of markers; let i = index" (click)="markerClick(m)">
                     {{m.title}}
+                    <span *ngIf="m.status == 0" class="pull-right text-danger glyphicon glyphicon-exclamation-sign"></span>
+                    <span *ngIf="m.status == 1" class="pull-right text-warning glyphicon glyphicon-alert"></span>
+                    <span *ngIf="m.status == 2" class="pull-right text-success glyphicon glyphicon-ok"></span>
                 </a>
             </ul>
         </div>

@@ -20,8 +20,11 @@ export class ReportdetailsComponent implements OnInit {
   titleInput = '';
   descriptionInput = '';
 
-  constructor(private ls: LocalstorageService, private firebaseService: FirebaseService, private router:Router) { 
-  }
+  constructor(
+    private ls: LocalstorageService, 
+    private firebaseService: FirebaseService, 
+    private router:Router
+  ) { }
 
   ngOnInit() {
     this.loadCategories(); //Retrieves all categories, and may set category
