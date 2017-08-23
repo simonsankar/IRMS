@@ -14,10 +14,12 @@ import { ReportlocationComponent } from './components/makereport/partials/report
 import { ReportphotoComponent } from './components/makereport/partials/reportphoto/reportphoto.component';
 import { ReportsummaryComponent } from './components/makereport/partials/reportsummary/reportsummary.component';
 import { MakeresponseComponent } from './components/makeresponse/makeresponse.component';
+import { ManageReportsComponent } from './components/manage-reports/manage-reports.component';
+import { ManageCategoriesComponent } from './components/manage-categories/manage-categories.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const appRoutes: Routes = [
   { path:'',component: HomeComponent },
-  { path:'404', component: PagenotfoundComponent },
   { path:'reports', component: ReportsComponent },
   { path:'responses', component: ResponsesComponent },
   { path:'stats', component: StatsComponent },
@@ -29,8 +31,11 @@ const appRoutes: Routes = [
       { path: 'photo', component: ReportphotoComponent },
       { path: 'summary', component: ReportsummaryComponent },
   ] },
-  { path:'makeresponse', component: MakeresponseComponent },
-  { path:'makeresponse/:id', component: MakeresponseComponent }
+  { path:'makeresponse', component: MakeresponseComponent, canActivate: [AuthGuard] },
+  { path:'makeresponse/:id', component: MakeresponseComponent, canActivate: [AuthGuard] },
+  { path:'manage-reports', component: ManageReportsComponent, canActivate: [AuthGuard] },
+  { path:'manage-categories', component: ManageCategoriesComponent, canActivate: [AuthGuard]  },
+  { path:'**', component: PagenotfoundComponent },
 ];
 
 @NgModule({

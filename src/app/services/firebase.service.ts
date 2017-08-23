@@ -9,6 +9,7 @@ export class FirebaseService {
   responses: FirebaseListObservable<any[]>;
   response: FirebaseObjectObservable<any>;
   regions: FirebaseListObservable<any[]>;
+  category: FirebaseObjectObservable<any>;
   categories: FirebaseListObservable<any[]>;
 
   constructor(private af: AngularFireDatabase) { 
@@ -31,11 +32,18 @@ export class FirebaseService {
     this.report = this.af.object('/reports/'+id) as FirebaseObjectObservable <Report>;
     return this.report;
   }
-
   getReports(query) { //Get all reports
     this.reports = this.af.list('/reports', query) as FirebaseListObservable <Report[]>;
         
     return this.reports;
+  }
+  updateReport(id,category) { //Updates report category if category edit was made
+    this.getReport(id);
+    this.report.update({category: category});
+  }
+  deleteReport(id) {
+    this.getReport(id);
+    this.report.remove();
   }
 
   //Responses
@@ -62,6 +70,20 @@ export class FirebaseService {
   getCategories() { //Retrieves al categories
     this.categories = this.af.list('/categories') as FirebaseListObservable <Category[]>;
     return this.categories
+  }
+  getCategory(id) {
+    this.category = this.af.object('/categories/'+id);
+  }
+  addCategory(category){
+    this.categories.push(category);
+  }
+  updateCategoryName(id,name) {
+    this.getCategory(id);
+    this.category.set({name:name});
+  }
+  deleteCategory(id) {
+    this.getCategory(id);
+    this.category.remove();
   }
 }
 

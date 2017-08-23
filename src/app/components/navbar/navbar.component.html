@@ -14,18 +14,36 @@
     <div class="collapse navbar-collapse" id="navbar">
       <ul class="nav navbar-nav">
         <li><a [routerLink]="['/']" >Home</a></li>
-        <li><a [routerLink]="['reports']">Reports</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a [routerLink]="['/reports']"class="hover">View Reports</a></li>
+            <li><a [routerLink]="['/makereport']"class="hover">Make Report</a></li>
+          </ul>
+        </li>
         <li><a [routerLink]="['responses']">Responses</a></li>
         <li><a [routerLink]="['stats']">Statistics</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="(auth.admin | async)"><a [routerLink]="['/makeresponse']">Make Response</a></li>
-        <li *ngIf="(auth.admin | async)">
-          <p class="navbar-text"><em>{{auth.adminName.email}}</em> <span class="glyphicon glyphicon-user"></span></p>
+        <!-- Management -->
+        <li *ngIf="(auth.admin | async)" class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Management <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a [routerLink]="['/makeresponse']">Make Response</a></li>
+            <li class="divider"></li>
+            <li><a [routerLink]="['/manage-reports']">Manage Reports</a></li>
+            <li><a [routerLink]="['/manage-categories']">Manage Categories</a></li>
+          </ul>
         </li>
+        <!-- Admin -->
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-option-vertical"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <span *ngIf="(auth.admin | async)">
+              <em>{{auth.adminName.email}}</em> <span class="glyphicon glyphicon-user"></span>
+            </span>
+            <span class="glyphicon glyphicon-option-vertical"></span>
+          </a>
           <ul class="dropdown-menu" role="menu">
             <li *ngIf="!(auth.admin | async)" ><a (click)="signUpModal.open()" class="hover">Sign Up</a></li>
             <li *ngIf="!(auth.admin | async)"><a (click)="loginModal.open()" class="hover">Login</a></li>
@@ -36,7 +54,6 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
 <!-- signUp Modal -->
 <modal #signUpModal [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
@@ -45,16 +62,28 @@
   <modal-content>
       <div class="form-group">
         <label for="email">Email:</label>
+         <div class="input-group">
          <input [(ngModel)]="email" type="text" name="email" placeholder="user@email.com" class="form-control"> 
+          <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+        </div>
       </div>
-        <div class="form-group">
-        <label for="password">Password:</label>
-         <input [(ngModel)]="password" type="password" name="password" class="form-control"> 
+      <div class="form-group">
+      <label for="password">Password:</label>
+        <div class="input-group">
+          <input [(ngModel)]="password" type="password" name="password" class="form-control"> 
+          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+        </div>
+    </div>
+      <div class="form-group">
+      <label for="confirmPassword">Confirm Password:</label>
+      <div class="input-group">
+        <input [(ngModel)]="confirmPassword" type="password" name="confirmPassword" class="form-control"> 
+        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
       </div>
-        <div class="form-group">
-        <label for="confirmPassword">Confirm Password:</label>
-         <input [(ngModel)]="confirmPassword" type="password" name="confirmPassword" class="form-control"> 
-      </div>
+    </div>
+    <div class="form-group">
+      <div class="help-block"><p class="text-danger">{{error}}</p></div>
+    </div>
   </modal-content>
   <modal-footer>
      <button class="pull-left btn btn-default" (click)="signUpModal.close()">Close</button> 
@@ -63,18 +92,27 @@
 </modal>
 
 <!-- login modal -->
-<modal #loginModal>
+<modal #loginModal [closeOnEscape]="false" [closeOnOutsideClick]="false">
   <modal-header>
       <h2>Login</h2>
   </modal-header>
   <modal-content>
       <div class="form-group">
         <label for="email">Email:</label>
-         <input [(ngModel)]="email" type="text" name="email" placeholder="user@email.com" class="form-control"> 
+        <div class="input-group">
+          <input [(ngModel)]="email" type="text" name="email" placeholder="user@email.com" class="form-control"> 
+          <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+        </div>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input [(ngModel)]="password" type="password" name="password" class="form-control"> 
+        <div class="input-group">
+          <input [(ngModel)]="password" type="password" name="password" class="form-control"> 
+          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+        </div> 
+      </div>
+      <div class="form-group">
+        <div class="help-block"><p class="text-danger">{{error}}</p></div>
       </div>
   </modal-content>
   <modal-footer>

@@ -2,15 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { AuthService } from '../../services/auth.service';
-
+import { fadeInAnimation } from '../../animations/fade-in.animation';
+import { PageHeaderComponent } from '../page-header/page-header.component';
 @Component({
   selector: 'app-responses',
   templateUrl: './responses.component.html',
-  styleUrls: ['./responses.component.css']
+  styleUrls: ['./responses.component.css'],
+  // make fade in animation available to this component
+  animations: [fadeInAnimation],
+  // attach the fade in animation to the host (root) element of this component
+  host: { '[@fadeInAnimation]': '' }
 })
 export class ResponsesComponent implements OnInit {
   title: string = 'Responses';
-  reports:any[];
+  reports:any[] =[];
 
   //Filter Panel
   categories:any[];
@@ -50,11 +55,11 @@ export class ResponsesComponent implements OnInit {
 
   loadReports(query) { //Loads Reports
     this.firebaseService.getReports(query).subscribe(reports => { 
-      this.reports = reports;
       if(this.selectedRegion.$key != 0){  //Check if filter is needed: (region)
-        this.reports = this.reports.filter(value => value.region == this.selectedRegion.name);  //Filter by region and update list        
+        reports = reports.filter(value => value.region == this.selectedRegion.name);  //Filter by region and update list        
       }
-      this.reports.forEach(report => {
+      
+      reports.forEach(report => {
         report.active = ''; //Add active property
         this.firebaseService.getResponses(report.$key) //Get responses
         .subscribe(responses => {
@@ -63,6 +68,7 @@ export class ResponsesComponent implements OnInit {
           });
           report.responses = responses;
         });
+        this.reports = reports;
         
       });
       console.log('Reports:\n',this.reports);
@@ -96,7 +102,7 @@ export class ResponsesComponent implements OnInit {
     
     clickResponse(response) { //CLicked response
       console.log('Clicked:',response);
-      setTimeout(() =>{
+      setTimeout(() => {
         response.view = !response.view;
       },200)
     }

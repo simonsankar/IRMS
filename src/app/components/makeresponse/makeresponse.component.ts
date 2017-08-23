@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { FirebaseService } from '../../services/firebase.service';
 import { MapsService } from '../../services/maps.service';
-
+import { PageHeaderComponent } from '../page-header/page-header.component'
 @Component({
   selector: 'app-makeresponse',
   templateUrl: './makeresponse.component.html',
@@ -26,7 +26,7 @@ export class MakeresponseComponent implements OnInit {
   categories: any[] = []; //Holds the categories 
   regions: any[] = [];//Holds the regions
   selectedCategory: any;  //default category (all)
-  selectedRegion: any = this.regions[0];    //defualt region (all)
+  selectedRegion: any;    //defualt region (all)
   statuses:any[] = [1,2];
   selectedStatus:any = this.statuses[0];
 
@@ -47,8 +47,8 @@ export class MakeresponseComponent implements OnInit {
     if(this.checkParams()){
       console.log('We had params');
     } else{
-      this.loadCategories();
       this.loadRegions();
+      this.loadCategories();
       this.loadReports({});
     }
   }
@@ -100,15 +100,15 @@ export class MakeresponseComponent implements OnInit {
 
   loadReports(query) {
     this.firebaseService.getReports(query).subscribe(reports => { 
-      this.reports = this.mapService.createMarkerList(reports, this.iconBase); //Queries on category
 
-      if(this.selectedRegion.$key != 0){  //Check if filter is needed: (region)
-        this.reports = this.reports.filter(value => value.region == this.selectedRegion.name);  //Filter by region and update list        
+      if(this.selectedRegion && this.selectedRegion.$key != 0){  //Check if filter is needed: (region)
+        reports = reports.filter(value => value.region == this.selectedRegion.name);  //Filter by region and update list        
       }
-      this.reports = this.reports.filter(value => value.status != 2); //Filter by incomplete reports
-      this.reports.forEach(report => {
+      reports = reports.filter(value => value.status != 2); //Filter by incomplete reports
+      reports.forEach(report => {
         report.active = '';
       });
+      this.reports = reports;
       console.log('Reports:\n',this.reports);
     });
   }

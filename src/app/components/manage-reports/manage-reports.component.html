@@ -1,0 +1,50 @@
+<app-page-header [title]="title"></app-page-header>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Reports</h3>
+            </div>
+            <div class="panel-body scrollable">
+                <ul class="list-group" *ngFor="let r of reports">
+                    <li class="list-group-item clearfix" [ngClass]="r.active">
+                        <div class="col-xs-9">
+                            <p class="list-group-item-text">{{r.title}} | <small>{{r.date}}</small></p>
+                        </div>
+                        <div class="col-xs-1">
+                            <span *ngIf="r.status == 0" class="text-danger"><span class="glyphicon glyphicon-exclamation-sign"></span></span>
+                            <span *ngIf="r.status == 1" class="text-warning"><span class="glyphicon glyphicon-alert"></span></span>
+                            <span *ngIf="r.status == 2" class="text-success"><span class="glyphicon glyphicon-ok"></span></span>
+                        </div>
+                        <div class="col-xs-1">
+                            <button data-toggle="collapse" [attr.href]="'#collapse_' + r.$key" (click)="viewReport(r)" type="button" class="pull-right btn btn-xs btn-info">
+                            <span *ngIf="!r.view" class="glyphicon glyphicon-eye-open"></span>                                    
+                            <span *ngIf="r.view" class="glyphicon glyphicon-eye-close"></span>                                    
+                        </button>
+                        </div>
+                        <div class="col-xs-1">
+                            <button (click)="deleteReport(r)" type="button" class="pull-right btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+
+                    </li>
+                    <div [attr.id]="'collapse_' + r.$key" class="collapse">
+                        <ul>
+                            <li class="list-group-item">
+                                <h5>Category: <em> {{r.category}}</em></h5>
+                                <h5>Address:
+                                    <p>{{r.address}}</p>
+                                </h5>
+                                <h5>Description:
+                                    <p><em>'{{r.description}}'</em></p>
+                                </h5>
+                            </li>
+                        </ul>
+                    </div>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,14 +1,11 @@
-<div class="row">
-    <h1>{{title}}</h1>
-    <hr>
-</div>
+<app-page-header [title]="title"></app-page-header>
 <div class="row">
     <div class="col-xs-9 col-sm-8 col-md-9 col-lg-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Reports and their Responses</h3>
             </div>
-            <div class="panel-body scrollable">
+            <div *ngIf="reports" class="panel-body scrollable">
                 <ul class="list-group" *ngFor="let report of reports let i = index">
                     <!-- Report headings -->
                     <a (click)="clickReport(report)" *ngIf="report.status == 0" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item">
@@ -49,7 +46,7 @@
                             <li class="list-group-item">
                                 <p class="list-group-item-text">
                                     {{res.title}} | <small>{{res.date}}</small>
-                                    <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + res.$key" (click)="clickResponse(res)"type="button" class="pull-right btn btn-xs btn-primary">
+                                    <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + res.$key" (click)="clickResponse(res)"type="button" class="pull-right btn btn-xs btn-default">
                                         <span *ngIf="!res.view" class="glyphicon glyphicon-chevron-down"></span>                                    
                                         <span *ngIf="res.view" class="glyphicon glyphicon-chevron-up"></span>                                    
                                     </button>
@@ -57,7 +54,7 @@
                                 
                             </li>
                             <div [attr.id]="'collapseTwo_' + res.$key" class="collapse">
-                                <li class="list-group-item"><em>{{res.description}}</em></li>
+                                <ul><li class="list-group-item"><em>{{res.description}}</em></li></ul>
                             </div>
                         </div>
                         <li *ngIf="report.status == 0" class="list-group-item"><em>No response currently</em></li>
@@ -71,11 +68,13 @@
         <div class="panel panel-default">
             <div class="panel-body">
                <!-- Region -->
+               <label for=""><strong>Region:</strong></label>
                 <select [(ngModel)]="selectedRegion" (ngModelChange)="onChange()" class="form-control">
                     <option *ngFor="let r of regions; let i = index" [ngValue]="r">{{r.name}}</option>
                 </select>
                 <hr>
                 <!-- Category -->
+                <label for=""><strong>Category:</strong></label>
                 <select [(ngModel)]="selectedCategory" (ngModelChange)="onChange()" class="form-control">
                     <option *ngFor="let c of categories; let j = index" [ngValue]="c"> {{c.name}}</option>
                 </select>

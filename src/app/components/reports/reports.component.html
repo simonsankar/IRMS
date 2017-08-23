@@ -1,8 +1,4 @@
-<div class="row">
-    <h1>{{title}}</h1>
-    <hr>
-</div>
-
+<app-page-header [title]="title"></app-page-header>
 <div class="row">
     <!-- Make Report button -->
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -30,7 +26,7 @@
               <div class="panel-body">
                 <!-- this creates a google map on the page with the given lat/lng from -->
                 <!-- the component as the initial center of the map: -->
-                <agm-map [latitude]="baselat" [longitude]="baselng" [zoom]="zoom">
+                <agm-map [latitude]="baselat" [longitude]="baselng" [zoom]="zoom" (mapClick)="mapClicked($event)">
                     <agm-marker 
                         *ngFor="let m of markers; let i = index"
                         [latitude]="m.latitude"
@@ -40,12 +36,13 @@
                     >
                         <agm-info-window [isOpen]="m.isOpen">
                             <h4>{{m.title}}<small> | {{m.date}}</small></h4>
-                            <h5>{{m.region}}</h5>
+                            <h6>{{m.region}}</h6>
+                            <h5>{{m.category}}:</h5>
                             <p><em>'{{m.description}}'</em></p>
                             <h5>Status:
-                                <em *ngIf="m.status == 0" class="text-danger">Unresolved</em>
-                                <em *ngIf="m.status == 1" class="text-warning">Ongoing</em>
-                                <em *ngIf="m.status == 2" class="text-success">Resolved</em>
+                                <em *ngIf="m.status == 0" class="text-danger">Unresolved <span class="glyphicon glyphicon-exclamation-sign"></span></em>
+                                <em *ngIf="m.status == 1" class="text-warning">Ongoing <span class="glyphicon glyphicon-alert"></span></em>
+                                <em *ngIf="m.status == 2" class="text-success">Resolved <span class="glyphicon glyphicon-ok"></span></em>
                             </h5>
                             <div *ngIf="(auth.admin | async)">
                                 <button *ngIf="m.status != 2" (click)="makeResponse(m.$key)" type="button" class="btn btn-xs btn-success">Respond</button>            
@@ -53,6 +50,7 @@
                         </agm-info-window>                     
                     </agm-marker>
                 </agm-map>
+              
               </div>
         </div>
     </div>
@@ -64,10 +62,10 @@
             </div>
             <ul class="list-group scrollable">
                 <a class="list-group-item" *ngFor="let m of markers; let i = index" (click)="markerClick(m)">
-                    {{m.title}}
-                    <span *ngIf="m.status == 0" class="pull-right text-danger glyphicon glyphicon-exclamation-sign"></span>
-                    <span *ngIf="m.status == 1" class="pull-right text-warning glyphicon glyphicon-alert"></span>
-                    <span *ngIf="m.status == 2" class="pull-right text-success glyphicon glyphicon-ok"></span>
+                    <span class="list-group-item-text">{{m.title}}</span>
+                    <span *ngIf="m.status == 0" class="pull-right text-danger glyphicon glyphicon-exclamation-sign"></span> 
+                    <span *ngIf="m.status == 1" class="pull-right text-warning glyphicon glyphicon-alert"></span> 
+                    <span *ngIf="m.status == 2" class="pull-right text-success glyphicon glyphicon-ok"></span> 
                 </a>
             </ul>
         </div>

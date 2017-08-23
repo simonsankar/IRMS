@@ -5,7 +5,7 @@
   import { FirebaseService } from '../../services/firebase.service';
   import { MapsService } from '../../services/maps.service';
   import { AuthService } from '../../services/auth.service';
-
+  import { PageHeaderComponent } from '../page-header/page-header.component'
   @Component({
     selector: 'app-reports',
     templateUrl: './reports.component.html',
@@ -18,6 +18,7 @@
     baselat: number = 10.439958;
     baselng: number = -61.298195;
     iconBase: string = '../../../assets/images/';
+    
     //Panel Properties
     markers: any[] = []; //Holds the reports info as well as marker properties
     categories: any[] = []; //Holds the categories 
@@ -33,8 +34,8 @@
     ) { }
 
     ngOnInit() { 
-      this.loadRegions();   //Retrieves all regions
       this.loadCategories(); //Retrieves all categories
+      this.loadRegions();   //Retrieves all regions
       this.loadMarkers({}); //Retrieves all reports initially      
     }
 
@@ -94,4 +95,8 @@
       this.router.navigate(['/makeresponse/'+id]);
     }
 
+    mapClicked($event:any) {
+      
+      
+    }
   }

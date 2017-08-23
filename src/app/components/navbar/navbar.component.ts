@@ -10,12 +10,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   brandImage:string = '../../../assets/images/brand.png';
-  email: string = 'man@gmail.com';
-  password: string = 'manman';
-  confirmPassword: string = 'manman';
+  email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  error:string;
 
   constructor(
-    private flash: FlashMessagesService,
+    public flash: FlashMessagesService,
     public auth: AuthService) {
   }
 
@@ -26,34 +27,57 @@ export class NavbarComponent implements OnInit {
   signUpModal:Modal
   signUp() {
     if(this.signUpValid()) {
+      this.auth.signUp(this.email,this.password)
+      .then(value => {
+        console.log('SignUp response',value);
+        if(value == true) {
+          this.error = '';
+          this.signUpModal.close();
+          this.flash.show('Signed Up!',
+            {
+              cssClass:'alert-success',
+              timeout:2900
+            }
+          );
+        } else {
+          this.error = value.message
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
       
-      let res = this.auth.signUp(this.email,this.password);
-      console.log(JSON.stringify(res));
-       
-      
-    }
-    else {
-
     }
   }
 
   @ViewChild('loginModal')
   loginModal:Modal
   login() {
-    let login = this.auth.login(this.email+'',this.password+'');
-    this.loginModal.close();
-    this.flash.show('Logged in',
-      {
-        cssClass: 'alert-info',
-        timeout: 3500
-      }  
-    );
+    this.auth.login(this.email+'',this.password+'')
+    .then(value => {
+      if(value == true) {
+        this.error = '';
+        this.loginModal.close();
+        this.flash.show('Logged in.',
+          {
+            cssClass: 'alert-info',
+            timeout: 2900
+          }
+        );
+      } else {
+        this.error = value.message;
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    
   }
   logout() {
     this.flash.show('Logged out',
       {
         cssClass: 'alert-danger',
-        timeout: 3500
+        timeout: 3100
       }  
     );
     return this.auth.logout();
