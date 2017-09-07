@@ -1,1 +1,12 @@
 <app-page-header [title]="title"></app-page-header>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul class="nav nav-pills">
+            <li class=""><a [routerLink]="['barchart']">Bar Chart</a></li>
+            <li class=""><a [routerLink]="['piechart']">Pie Chart</a></li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <router-outlet></router-outlet>
+</div>

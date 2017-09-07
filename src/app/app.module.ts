@@ -4,13 +4,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; //Form related stuff 'reactive forms'
 import { HttpModule } from '@angular/http';   //Http stuff for all types of requests
 import { RouterModule, Routes } from '@angular/router'; //Routing functionality
+
+import { AppRoutingModule } from './app-routing.module';    //Routing config for app
 import { AngularFireModule } from 'angularfire2';       //Angular4 & Firebase main module
 import { AngularFireDatabaseModule } from 'angularfire2/database'; //AngularFire database section
 import { AngularFireAuthModule } from 'angularfire2/auth';         //AngularFire auth section
-import { FlashMessagesModule } from 'angular2-flash-messages'
-import { ModalModule } from "ngx-modal";  //Modal and angular
-import { AgmCoreModule } from '@agm/core';                         // Angular4 & GoogleMaps module
-import { AppRoutingModule }        from './app-routing.module';    //Routing config for app
+import { FlashMessagesModule } from 'angular2-flash-messages';
+import { NgSpinKitModule } from 'ng-spin-kit';
+import { ModalModule } from 'ngx-modal';                           //Modal and angular
+import { AgmCoreModule } from '@agm/core';                         //Angular4 & GoogleMaps module
 
 import { environment } from '../environments/environment';         //Environment variables.. for angularfire
 import { FirebaseService } from './services/firebase.service';     //My Firebase service to handle data transfer
@@ -38,6 +40,8 @@ import { ManageCategoriesComponent } from './components/manage-categories/manage
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { ManageReportsComponent } from './components/manage-reports/manage-reports.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { BarChartComponent } from './components/stats/partials/bar-chart/bar-chart.component';
+import { PieChartComponent } from './components/stats/partials/pie-chart/pie-chart.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,8 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     ManageCategoriesComponent,
     ManageReportsComponent,
     PageHeaderComponent,
+    BarChartComponent,
+    PieChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +77,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     ModalModule, //importing modal module
+    NgSpinKitModule,
     FlashMessagesModule,
     AgmCoreModule.forRoot({ //Angular Google Maps
       apiKey: 'AIzaSyCJyeFvNVp6meRRfkEJ8xxdFoIX0aBvpJ8'

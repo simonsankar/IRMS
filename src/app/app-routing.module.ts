@@ -7,6 +7,8 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { ResponsesComponent } from './components/responses/responses.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { StatsComponent } from './components/stats/stats.component';
+import { BarChartComponent } from './components/stats/partials/bar-chart/bar-chart.component';
+import { PieChartComponent } from './components/stats/partials/pie-chart/pie-chart.component';
 import { MakereportComponent } from './components/makereport/makereport.component';
 import { NewreportComponent } from './components/makereport/partials/newreport/newreport.component';
 import { ReportdetailsComponent } from './components/makereport/partials/reportdetails/reportdetails.component';
@@ -22,7 +24,11 @@ const appRoutes: Routes = [
   { path:'',component: HomeComponent },
   { path:'reports', component: ReportsComponent },
   { path:'responses', component: ResponsesComponent },
-  { path:'stats', component: StatsComponent },
+  { path:'stats', component: StatsComponent, children: [
+      { path: '',pathMatch: 'full', redirectTo: 'barchart'},
+      { path: 'barchart', component: BarChartComponent },
+      { path: 'piechart', component: PieChartComponent }
+  ] },
   { path:'makereport',component: MakereportComponent, children: [
       { path:'', pathMatch: 'full', redirectTo: 'newreport' },
       { path: 'newreport', component: NewreportComponent },

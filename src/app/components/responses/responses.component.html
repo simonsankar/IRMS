@@ -2,30 +2,32 @@
 <div class="row">
     <div class="col-xs-9 col-sm-8 col-md-9 col-lg-9">
         <div class="panel panel-primary">
-            <div class="panel-heading">
+            <div class="panel-heading clearfix">
                 <h3 class="panel-title">Reports and their Responses</h3>
             </div>
+            <div *ngIf="reports.length < 1" class="panel-body">
+                <sk-wave class="small" [color]="'#158cba'"></sk-wave>
+            </div>
             <div *ngIf="reports" class="panel-body scrollable">
-                <ul class="list-group" *ngFor="let report of reports let i = index">
+                <ul class="list-group clearfix" *ngFor="let report of reports let i = index">
                     <!-- Report headings -->
                     <a (click)="clickReport(report)" *ngIf="report.status == 0" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item">
                         <p>
-                            {{report.title}}
+                            <strong>{{report.title}}</strong>
                             <span class="pull-right text-danger glyphicon glyphicon-exclamation-sign"></span>
                         </p>
                     </a>
                     <a (click)="clickReport(report)" *ngIf="report.status == 1" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item ">
                         <p>
-                            {{report.title}}
-                            <span class="pull-right text-warning glyphicon glyphicon-alert"></span>
+                          <strong>{{report.title}}</strong>
+                          <span class="pull-right text-warning glyphicon glyphicon-alert"></span>
                         </p>
                     </a>
                     <a (click)="clickReport(report)" *ngIf="report.status == 2" data-toggle="collapse" [attr.href]="'#collapseOne_' + i" [ngClass]="report.active" class="list-group-item ">
                         <p>
-                            {{report.title}}
-                            <span class="list-group-item-text pull-right text-success glyphicon glyphicon-ok"></span>
+                          <strong>{{report.title}}</strong>
+                          <span class="list-group-item-text pull-right text-success glyphicon glyphicon-ok"></span>
                         </p>
-                        
                     </a>
                     <div [attr.id]="'collapseOne_' + i" class="collapse">
                         <li class="list-group-item">
@@ -43,7 +45,7 @@
                     <!-- Responses -->
                     <ul>
                         <div *ngFor="let res of report.responses">
-                            <li class="list-group-item">
+                            <li class="list-group-item clearfix">
                                 <p class="list-group-item-text">
                                     {{res.title}} | <small>{{res.date}}</small>
                                     <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + res.$key" (click)="clickResponse(res)"type="button" class="pull-right btn btn-xs btn-default">
@@ -67,8 +69,8 @@
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <div class="panel panel-default">
             <div class="panel-body">
-               <!-- Region -->
-               <label for=""><strong>Region:</strong></label>
+                <!-- Region -->
+                <label for=""><strong>Region:</strong></label>
                 <select [(ngModel)]="selectedRegion" (ngModelChange)="onChange()" class="form-control">
                     <option *ngFor="let r of regions; let i = index" [ngValue]="r">{{r.name}}</option>
                 </select>

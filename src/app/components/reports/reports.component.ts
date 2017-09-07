@@ -5,7 +5,8 @@
   import { FirebaseService } from '../../services/firebase.service';
   import { MapsService } from '../../services/maps.service';
   import { AuthService } from '../../services/auth.service';
-  import { PageHeaderComponent } from '../page-header/page-header.component'
+  import { PageHeaderComponent } from '../page-header/page-header.component';
+  
   @Component({
     selector: 'app-reports',
     templateUrl: './reports.component.html',

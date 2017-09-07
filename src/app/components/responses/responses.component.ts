@@ -2,16 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { AuthService } from '../../services/auth.service';
-import { fadeInAnimation } from '../../animations/fade-in.animation';
 import { PageHeaderComponent } from '../page-header/page-header.component';
+
 @Component({
   selector: 'app-responses',
   templateUrl: './responses.component.html',
   styleUrls: ['./responses.component.css'],
   // make fade in animation available to this component
-  animations: [fadeInAnimation],
   // attach the fade in animation to the host (root) element of this component
-  host: { '[@fadeInAnimation]': '' }
 })
 export class ResponsesComponent implements OnInit {
   title: string = 'Responses';
@@ -76,9 +74,9 @@ export class ResponsesComponent implements OnInit {
   }
 
   onChange() { //Updates list based on the combo selected: (category,region)
-      console.log('Combo:', this.selectedCategory.name, this.selectedRegion.name);
-      this.loadReports(this.createQuery());       
-    }
+    console.log('Combo:', this.selectedCategory.name, this.selectedRegion.name);
+    this.loadReports(this.createQuery());       
+  }
 
   createQuery() { //Creates a query based on category
       if(this.selectedCategory.$key != 0){  //Category was selected

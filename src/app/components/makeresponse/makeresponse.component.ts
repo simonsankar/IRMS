@@ -4,10 +4,11 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { FirebaseService } from '../../services/firebase.service';
 import { MapsService } from '../../services/maps.service';
 import { PageHeaderComponent } from '../page-header/page-header.component'
+
 @Component({
   selector: 'app-makeresponse',
   templateUrl: './makeresponse.component.html',
-  styleUrls: ['./makeresponse.component.css']
+  styleUrls: ['./makeresponse.component.css'],
 })
 export class MakeresponseComponent implements OnInit {
   title: string = 'Make a Response';

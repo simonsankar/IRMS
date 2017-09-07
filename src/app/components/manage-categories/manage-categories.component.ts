@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import { FirebaseService } from '../../services/firebase.service';
+
 @Component({
   selector: 'app-manage-categories',
   templateUrl: './manage-categories.component.html',

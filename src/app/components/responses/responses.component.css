@@ -1,5 +1,6 @@
 a:hover {
     cursor:pointer;
+    color: #222;
 }
 a:active {
     background: #e5e5e5;

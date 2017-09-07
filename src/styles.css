@@ -3,13 +3,23 @@ html{
     height: 100%;
 }
 body{
-    background-color: #FFfffa;
+    font-family: 'Saira', sans-serif;
+    background-color: #fdffff;
     position: relative;
     margin: 0;
     padding-bottom: 30rem; 
     min-height: 100%;
 }
 
+.shadow{
+  text-shadow:-1px 1px 0px #fafafa, -2px 2px 0px #D1CBCB;
+  text-transform: uppercase;
+}
+
 .well{
     border: 1px solid #e0413d;
+}
+
+hr{
+  border: 3px solid #e3e3e3;
 }

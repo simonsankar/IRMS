@@ -23,7 +23,7 @@
           <div [ngClass]="addressInput"class="form-group">
             <label for="address"><strong>Address:</strong></label>
             <div class="input-group">
-              <input name="address" [(ngModel)]="address" type="text" class="form-control">
+              <input (keyup.enter)="geocodeAddress()" name="address" [(ngModel)]="address" type="text" class="form-control">
               <span class="input-group-btn">
                 <button (click)="geocodeAddress()" class="btn btn-info" type="button"><span class="glyphicon glyphicon-search"></span> Search</button>
               </span>
